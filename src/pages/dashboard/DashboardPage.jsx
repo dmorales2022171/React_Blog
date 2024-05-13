@@ -1,28 +1,31 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./dashboardPage.css";
 import { usePublications } from "../../shared/hooks/usePublications";
-import { useComments } from "../../shared/hooks/useCommets";
+import { useComments } from "../../shared/hooks/useCommets"; 
+import toast from "react-hot-toast";
 
 export const DashboardPage = () => {
   const { publications, getPublications } = usePublications();
-  const { addComment } = useComments();
-
+  const { addComment } = useComments(); 
   useEffect(() => {
     getPublications();
   }, []);
 
-  const [newComment, setNewComment] = useState(""); // State for the new comment text
+  const [newComment, setNewComment] = useState("");
 
-  const handleAddComment = (publicationId) => {
-    // Assuming you have comment data ready, you can pass it to the addComment function
-    const commentData = {
-      publicationId: publicationId,
-      content: newComment, // Pass the new comment content
-      // Add other comment data here
-    };
-    addComment(commentData);
-    // Clear the input field after adding comment
-    setNewComment("");
+  const handleAddComment = async (publicationId) => {
+    try {
+      const commentData = {
+        publicationId: publicationId,
+        content: newComment,
+      };
+      await addComment(commentData);
+      toast.success("Comentario publicado exitosamente");
+      setNewComment(""); 
+    } catch (error) {
+      console.error("Error al publicar comentario:", error);
+      toast.error("Se produjo un error al publicar el comentario");
+    }
   };
 
   return (
@@ -50,7 +53,7 @@ export const DashboardPage = () => {
               />
               <button
                 className="button-85"
-                onClick={() => handleAddComment(publication.id)}
+                onClick={() => handleAddComment(publication._id)}
               >
                 Agregar comentario
               </button>

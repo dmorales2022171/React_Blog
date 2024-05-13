@@ -19,11 +19,14 @@ export const getPublications = async () => {
 
 export const postComments = async (data) => {
     try{
-        return await apiClient.post('/comments', data)
+        return await apiClient.post('/comments', data);
     }catch(e){
+        console.log(data);
         return{
             error: true,
             e
+            
         }
     }
+
 }

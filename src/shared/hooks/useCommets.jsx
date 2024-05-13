@@ -9,10 +9,10 @@ export const useComments = () => {
       try {
           const response = await postComments(commentData);
           setComments([...comments, response]);
-          toast.success("Comment posted successfully");
+          toast.success("Comentario publicado exitosamente");
       } catch (error) {
-          console.error("Error posting comment:", error);
-          toast.error("Error occurred when posting comment");
+          console.error("Error al publicar comentario:", error);
+          toast.error("Se produjo un error al publicar el comentario");
       }
   };
 
