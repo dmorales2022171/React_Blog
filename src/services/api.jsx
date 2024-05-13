@@ -41,3 +41,14 @@ export const getComments = async () => {
         }
     }
 }
+
+export const getCommentById = async(commentId) => {
+    try{
+        return await apiClient.get(`/comments/${commentId}`)
+    }catch(e){
+        return{
+            error: true,
+            e
+        }
+    }
+}
