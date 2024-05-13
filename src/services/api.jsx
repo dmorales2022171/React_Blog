@@ -1,14 +1,14 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-    baseURL: 'http://127.0.0.1:8080/opinionApi/v1',
+    baseURL: 'http://127.0.0.1:8080/opinionApi/v1/',
     timeout: 5000
 })
 
 
 export const getPublications = async () => {
     try{
-        return await apiClient.get('/publications/')
+        return await apiClient.get('/publications')
     }catch(e){
         return{
             error: true,
@@ -17,11 +17,13 @@ export const getPublications = async () => {
     }
 }
 
-const checkResponseStatus = (e) => {
-    const responseStatus = e?.response?.status
-
-    if(responseStatus){
-        e,
-        (responseStatus === 401 || responseStatus === 403)
+export const postComments = async (data) => {
+    try{
+        return await apiClient.post('/comments', data)
+    }catch(e){
+        return{
+            error: true,
+            e
+        }
     }
 }

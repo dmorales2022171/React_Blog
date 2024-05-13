@@ -14,7 +14,7 @@ export const Input = ({
   };
 
   const handleInputBlur = (event) => {
-    onChangeHandler(event.target.value, field);
+    onBlurHandler(event.target.value, field);
   };
 
   return (
@@ -24,22 +24,24 @@ export const Input = ({
       </div>
       {textarea ? (
         <textarea
-            type={type}
-            value={value}
-            onChange={handleValueChange}
-            onBlur={handleInputBlur}
-            rows={5}
-            style={{maxWidth: '400px'}}
+          type={type}
+          value={value}
+          onChange={handleValueChange}
+          onBlur={handleInputBlur}
+          rows={5}
+          style={{ maxWidth: "400px" }}
         />
-      ):(
-        <Input
-            type={type}
-            value={value}
-            onChange={handleValueChange}
-            onBlur={handleInputBlur}
+      ) : (
+        <input
+          type={type}
+          value={value}
+          onChange={handleValueChange}
+          onBlur={handleInputBlur}
         />
-      )
-      }
+      )}
+      <span className="auth-form-validations-message">
+        {showErrorMessage && validationMessage}
+      </span>
     </>
   );
 };
