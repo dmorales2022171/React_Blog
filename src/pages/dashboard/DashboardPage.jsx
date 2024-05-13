@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./dashboardPage.css";
 import { usePublications } from "../../shared/hooks/usePublications";
-import { useComments } from "../../shared/hooks/useCommets"; 
+import { useComments } from "../../shared/hooks/useCommets";
+import { useCommentsDetails } from "../../shared/hooks/useCommentsDetails";
 import toast from "react-hot-toast";
 
 export const DashboardPage = () => {
   const { publications, getPublications } = usePublications();
-  const { addComment } = useComments(); 
+  const { comments, getComments } = useCommentsDetails();
+  const { addComment } = useComments();
   useEffect(() => {
     getPublications();
+    getComments();
   }, []);
 
   const [newComment, setNewComment] = useState("");
@@ -21,7 +24,7 @@ export const DashboardPage = () => {
       };
       await addComment(commentData);
       toast.success("Comentario publicado exitosamente");
-      setNewComment(""); 
+      setNewComment("");
     } catch (error) {
       console.error("Error al publicar comentario:", error);
       toast.error("Se produjo un error al publicar el comentario");
@@ -57,6 +60,16 @@ export const DashboardPage = () => {
               >
                 Agregar comentario
               </button>
+              <div>
+                <h3>Comentarios:</h3>
+                {comments
+                 // .filter((comment) => comment.publication.toString() === publication._id.toString())
+                  .map((comment) => (
+                    <div key={comment._id}>
+                      <p>{comment.content}</p>
+                    </div>
+                  ))}
+              </div>            
             </article>
           ))}
         </section>

@@ -30,3 +30,14 @@ export const postComments = async (data) => {
     }
 
 }
+
+export const getComments = async () => {
+    try{
+        return await apiClient.get('/comments')
+    }catch(e){
+        return{
+            error: true,
+            e
+        }
+    }
+}
