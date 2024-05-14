@@ -42,9 +42,9 @@ export const getComments = async () => {
     }
 }
 
-export const getCommentById = async(commentId) => {
+export const getCommentByPublication = async(publicationId) => {
     try{
-        return await apiClient.get(`/comments/${commentId}`)
+        return await apiClient.get(`/comments/publication/${publicationId}`)
     }catch(e){
         return{
             error: true,

@@ -5,15 +5,16 @@ import { useComments } from "../../shared/hooks/useCommets";
 import { useCommentsDetails } from "../../shared/hooks/useCommentsDetails";
 import toast from "react-hot-toast";
 
-// Nuevo componente para mostrar el contenido completo de la publicación
 const PublicationModal = ({ publication, onClose, onAddComment, comments }) => {
   const [newComment, setNewComment] = useState("");
+  const [author, setAuthor] = useState("");
 
   const handleAddComment = async () => {
     try {
-      await onAddComment(publication._id, newComment);
+      await onAddComment(author, publication._id, newComment);
       toast.success("Comentario publicado exitosamente");
       setNewComment("");
+      setAuthor("");
     } catch (error) {
       console.error("Error al publicar comentario:", error);
       toast.error("Se produjo un error al publicar el comentario");
@@ -23,10 +24,18 @@ const PublicationModal = ({ publication, onClose, onAddComment, comments }) => {
   return (
     <div className="modal">
       <div className="modal-content">
-        <span className="close" onClick={onClose}>&times;</span>
+        <span className="close" onClick={onClose}>
+          &times;
+        </span>
         <h2>{publication.title}</h2>
         <p>{publication.content}</p>
         <div>
+          <input
+            type="text"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+            placeholder="Autor"
+          />
           <input
             type="text"
             value={newComment}
@@ -39,13 +48,16 @@ const PublicationModal = ({ publication, onClose, onAddComment, comments }) => {
         </div>
         <div>
           <h3>Comentarios:</h3>
-          {comments
-            //.filter((comment) => comment.publication === publication._id)
-            .map((comment) => (
-              <div key={comment._id}>
-                <p>{comment.content}</p>
-              </div>
-            ))}
+          {comments.map((comment) => (
+            <div key={comment._id}>
+              <p>
+                <strong>Autor:</strong> {comment.author}
+              </p>
+              <p>
+                <strong>Descripción:</strong> {comment.content}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -54,21 +66,22 @@ const PublicationModal = ({ publication, onClose, onAddComment, comments }) => {
 
 export const DashboardPage = () => {
   const { publications, getPublications } = usePublications();
-  const { comments, getComments } = useCommentsDetails();
+  const { comments, getCommentsByPublication } = useCommentsDetails();
   const { addComment } = useComments();
   useEffect(() => {
     getPublications();
-    getComments();
   }, []);
 
   const [selectedPublication, setSelectedPublication] = useState(null);
 
-  const handleAddComment = async (publicationId, content) => {
-    await addComment({ publicationId, content });
+  const handleAddComment = async (author, publicationId, content) => {
+    await addComment({ author, publicationId, content });
+    getCommentsByPublication(publicationId); // Actualizar comentarios después de agregar uno nuevo
   };
 
-  const handleViewMore = (publication) => {
+  const handleViewMore = async (publication) => {
     setSelectedPublication(publication);
+    await getCommentsByPublication(publication._id); // Obtener comentarios al ver más
   };
 
   const handleCloseModal = () => {

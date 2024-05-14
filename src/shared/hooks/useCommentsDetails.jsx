@@ -1,28 +1,22 @@
 import { useState } from "react";
-import { getComments as getCommentsRequest } from "../../services/api";
+import { getCommentByPublication } from "../../services/api";
 import toast from "react-hot-toast";
 
 export const useCommentsDetails = () =>  {
     const [comments, setComments] = useState([]);
 
-    const getComments = async () => {
-        const commentsData = await getCommentsRequest();
-        
-        if(commentsData.error){
-            return toast.error(
-                commentsData.error,
-                commentsData.e?.response?.data || "An error occurred while reading comments."
-
-            )
+    const getCommentsByPublication = async (publicationId) => {
+        try {
+          const response = await getCommentByPublication(publicationId);
+          setComments(response.data.comments);
+        } catch (error) {
+          console.error("Error al obtener comentarios:", error);
+          toast.error("Se produjo un error al obtener los comentarios");
         }
+      };
 
-        setComments(commentsData.data.comments)
-        return commentsData.data;
-    }
-
-    return{
+    return {
         comments,
-        getComments,
-        allComments: comments?.comments
-    }
-}
+        getCommentsByPublication
+    };
+};

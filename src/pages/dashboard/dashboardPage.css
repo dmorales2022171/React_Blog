@@ -1,4 +1,4 @@
-/* Estilos generales */
+
 body {
     font-family: 'Times New Roman', Times, serif;
     margin: 0;
@@ -128,7 +128,7 @@ footer p {
 @keyframes glowing-button-85 {
   0% {
     background-position: 0 0;
-  }y
+  }
   50% {
     background-position: 400% 0;
   }
