@@ -76,12 +76,12 @@ export const DashboardPage = () => {
 
   const handleAddComment = async (author, publicationId, content) => {
     await addComment({ author, publicationId, content });
-    getCommentsByPublication(publicationId); // Actualizar comentarios después de agregar uno nuevo
+    getCommentsByPublication(publicationId);
   };
 
   const handleViewMore = async (publication) => {
     setSelectedPublication(publication);
-    await getCommentsByPublication(publication._id); // Obtener comentarios al ver más
+    await getCommentsByPublication(publication._id);
   };
 
   const handleCloseModal = () => {
@@ -97,9 +97,17 @@ export const DashboardPage = () => {
         <article>
           <h2>Hello world</h2>
           <p>
-            Hola mi nombre es Diego un joven programador el cual el día de hoy
-            les mostrará a continuación acerca de mis asignaturas de mi área
-            técnica
+            ¡Hola a todos! Soy Diego, un joven apasionado por la programación y
+            la tecnología. Hoy, estoy emocionado de compartir con ustedes un
+            vistazo a las asignaturas que estoy explorando en mi área técnica.
+            Para mí, la programación no es solo una carrera, sino una forma de
+            vida en la que cada línea de código es una oportunidad para crear,
+            innovar y resolver problemas. En este viaje de aprendizaje, he
+            estado inmerso en una variedad de asignaturas que abarcan desde los
+            fundamentos esenciales hasta los conceptos más avanzados de la
+            informática. Desde que comencé este viaje, he descubierto que cada
+            asignatura es como un pilar que sustenta mi crecimiento y desarrollo
+            como programador.
           </p>
         </article>
         <section className="main-content">
@@ -107,6 +115,18 @@ export const DashboardPage = () => {
             <article key={publication.id}>
               <h2>{publication.title}</h2>
               <p>{publication.description}</p>
+              <p>
+                Este curso pretende implementar proyectos y
+                actividades que enfoquen al alumno a un ambiente práctico de la
+                programación. En este curso el estudiante tendrá la capacidad de
+                desarrollar aplicaciones con tecnologia Web y móvil, mediante
+                los conocimientos tanto teóricos como prácticos de Node.js,
+                ReactJs, Railway y utilizando el lenguaje de programación
+                JavaScript, esto implica que el estudiante tendrá la capacidad
+                de poder instalar y configurar un Web Api, una página web,
+                conjunto a la capacidad de conectar sus aplicaciones a bases de
+                datos NoSQL y conexión en la nube.
+              </p>
               <button
                 className="button-85"
                 onClick={() => handleViewMore(publication)}
